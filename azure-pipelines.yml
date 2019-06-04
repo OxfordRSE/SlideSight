@@ -17,3 +17,6 @@ steps:
     vcpkg version
     vcpkg search qt5
   displayName: 'vcpkg'
+
+- script: vcpkg install qt5-base
+  displayName: 'Install qt5'
