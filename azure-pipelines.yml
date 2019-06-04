@@ -29,3 +29,12 @@ steps:
     workingDirectory: 'build'
     # cmakeArgs: 
   displayName: 'CMake'
+
+- script: |
+    mkdir build && cd build
+    cmake ..
+  displayName: 'CMake'
+
+- script: |
+    cmake .. --build
+  displayName: 'Build'
