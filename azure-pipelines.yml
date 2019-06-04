@@ -21,5 +21,11 @@ steps:
 # - script: vcpkg install qt5-base
 #   displayName: 'Install qt5'
 
-- script: apt install qt5-default
+- script: sudo apt install qt5-default
   displayName: 'Install qt5'
+
+- task: CMake@1
+  inputs:
+    workingDirectory: 'build'
+    # cmakeArgs: 
+  displayName: 'CMake'
