@@ -27,14 +27,14 @@ steps:
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
-    # cmakeArgs: 
+    cmakeArgs: '..'
   displayName: 'CMake'
 
-- script: |
-    mkdir build && cd build
-    cmake ..
-  displayName: 'CMake'
+# - script: |
+#     mkdir build && cd build
+#     cmake ..
+#   displayName: 'CMake'
 
-- script: |
-    cmake .. --build
-  displayName: 'Build'
+# - script: |
+#     cmake .. --build
+#   displayName: 'Build'
