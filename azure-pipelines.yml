@@ -33,5 +33,5 @@ steps:
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
-    cmakeArgs: '--build'
+    cmakeArgs: '--build .'
   displayName: 'Build'
