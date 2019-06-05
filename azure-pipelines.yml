@@ -30,11 +30,8 @@ steps:
     cmakeArgs: '..'
   displayName: 'CMake'
 
-# - script: |
-#     mkdir build && cd build
-#     cmake ..
-#   displayName: 'CMake'
-
-# - script: |
-#     cmake .. --build
-#   displayName: 'Build'
+- task: CMake@1
+  inputs:
+    workingDirectory: 'build'
+    cmakeArgs: '--build'
+  displayName: 'Build'
