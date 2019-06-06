@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -10,14 +5,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    vcpkg version
-    vcpkg search qt5
-  displayName: 'vcpkg'
-
+# Once caching of vcpkg exists this will allow us to test the gui build
 # - script: vcpkg install qt5-base
 #   displayName: 'Install qt5'
 
