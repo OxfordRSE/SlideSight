@@ -9,7 +9,7 @@ The development Qt (https://www.qt.io/) libraries are required to build the GUI 
 ### Ubuntu
 
 ```bash
-$ sudo apt install qt5-default
+$ sudo apt install qt5-default libopenslide-dev
 ```
 
 ## Build instructions
