@@ -2,18 +2,38 @@ cmake_minimum_required(VERSION 3.10)
 
 project(SlideSight LANGUAGES CXX)
 
-# ensure C++14
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake"
+                       ${CMAKE_MODULE_PATH})
+
+# ensure C++17
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # export compiler flags for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-# the main SlideSight library and test suite
-add_library(SightLib src/lib/SightLib.cpp)
+# Library dependencies
 
-target_include_directories(SightLib PUBLIC src/lib)
+find_package(OpenSlide REQUIRED)
+set(sight_include_dirs ${OPENSLIDE_INCLUDE_DIRS})
+set(sight_libraries ${OPENSLIDE_LIBRARIES})
+
+set(sight_source
+  src/lib/SightLib.cpp
+  src/lib/SlideData.cpp
+  )
+
+set(sight_headers
+  src/lib/SightLib.hpp
+  src/lib/SlideData.hpp
+  )
+  
+# the main SlideSight library and test suite
+add_library(SightLib ${sight_source} ${sight_header})
+
+target_include_directories(SightLib PUBLIC src/lib ${sight_include_dirs})
+target_link_libraries(SightLib PUBLIC ${sight_libraries})
 
 enable_testing()
 
