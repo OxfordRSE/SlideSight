@@ -5,11 +5,11 @@ strategy:
       imageName: 'ubuntu-16.04'
       buildGui: 'ON'
     # macOS
-    macOS_Python35:
+    macOS:
       imageName: 'macOS-10.14'
       buildGui: 'OFF'
     # Windows
-    Windows_Python35:
+    Windows:
       imageName: 'vs2017-win2016'
       buildGui: 'OFF'
 
@@ -24,6 +24,7 @@ steps:
 
 - script: sudo apt update && sudo apt install qt5-default
   displayName: 'Install qt5'
+  condition: eq(variables['buildGui'], 'ON')
 
 - task: CMake@1
   inputs:
