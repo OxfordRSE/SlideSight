@@ -15,9 +15,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 # Library dependencies
 
+# OpenSlide
 find_package(OpenSlide REQUIRED)
 set(sight_include_dirs ${OPENSLIDE_INCLUDE_DIRS})
 set(sight_libraries ${OPENSLIDE_LIBRARIES})
+
+# std::filesystem
+find_package(Filesystem REQUIRED COMPONENTS Experimental)
+
 
 set(sight_source
   src/lib/SightLib.cpp
@@ -28,16 +33,22 @@ set(sight_headers
   src/lib/SightLib.hpp
   src/lib/SlideData.hpp
   )
+
+
+set(sight_tests
+  tests/TestSightLib.cpp
+  tests/TestSlideData.cpp
+  )
   
 # the main SlideSight library and test suite
 add_library(SightLib ${sight_source} ${sight_header})
 
 target_include_directories(SightLib PUBLIC src/lib ${sight_include_dirs})
-target_link_libraries(SightLib PUBLIC ${sight_libraries})
+target_link_libraries(SightLib PUBLIC ${sight_libraries} filesystem)
 
 enable_testing()
 
-add_executable(TestSightLib tests/TestSightLib.cpp)
+add_executable(TestSightLib ${sight_tests})
 target_include_directories(TestSightLib PRIVATE tests)
 target_link_libraries(TestSightLib PRIVATE SightLib)
 add_test(TestSightLib TestSightLib)
