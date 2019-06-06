@@ -42,5 +42,5 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "SlideSight")
 include(CPack)
 
 add_executable(SlideSight ${GUI_SOURCES})
-target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib)
 
