@@ -5,10 +5,10 @@ strategy:
       imageName: 'ubuntu-16.04'
       buildGui: 'ON'
       specificCompiler: 'g++-8'
-    # macOS
-    macOS:
-      imageName: 'macOS-10.14'
-      buildGui: 'OFF'
+    # macOS - turn on when we can get filesystem working with macOS
+#    macOS:
+#      imageName: 'macOS-10.14'
+#      buildGui: 'OFF'
     # Windows
     Windows:
       imageName: 'vs2017-win2016'
