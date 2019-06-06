@@ -4,6 +4,7 @@ strategy:
     Ubuntu:
       imageName: 'ubuntu-16.04'
       buildGui: 'ON'
+      specificCompiler: 'g++-8'
     # macOS
     macOS:
       imageName: 'macOS-10.14'
@@ -33,7 +34,7 @@ steps:
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
-    cmakeArgs: '.. -DSlideSight_BUILD_GUI:BOOL=$(buildGui)'
+    cmakeArgs: '.. -DSlideSight_BUILD_GUI:BOOL=$(buildGui) -DCMAKE_CXX_COMPILER=$(specificCompiler)'
   displayName: 'CMake'
 
 - task: CMake@1
