@@ -26,16 +26,16 @@ void SlideData::open(const std::string& filename)
         "Error reading slide file " + filename + "with vendor " + vendor_name);
   }
 
-  std::cout << "Opened filename " << filename << std::endl;
-  std::cout << "\tSlide vendor " << vendor_name << std::endl;
+  std::cout << "Opened filename \"" << filename <<"\":"<< std::endl;
+  std::cout << "\t- vendor " << vendor_name << std::endl;
 
   const int level_count = openslide_get_level_count(data.get());
-  std::cout << "\tSlide level count " << level_count << std::endl;
+  std::cout << "\t- level count " << level_count << std::endl;
 
   int64_t width, height;
   openslide_get_level0_dimensions(data.get(), &width, &height);
 
-  std::cout << "\tSlide level 0 dimensions (" << width << 'x' << height << ")"
+  std::cout << "\t- level 0 dimensions (" << width << 'x' << height << ")"
             << std::endl;
 }
 void SlideData::close()
