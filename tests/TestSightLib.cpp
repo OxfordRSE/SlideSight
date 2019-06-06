@@ -11,3 +11,10 @@ TEST_CASE("correct magic numbers are returned", "[magic]") {
   CHECK(sight::magic_function(-5) == 23);
   CHECK(sight::magic_function(15) == 23);
 }
+
+TEST_CASE("testing filesystem", "[fs]") {
+
+  std::string path = sight::file_magic();
+
+  CHECK(path.size() > 5);
+}

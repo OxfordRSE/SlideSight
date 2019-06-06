@@ -10,7 +10,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # export compiler flags for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
 # the main SlideSight library and test suite
+
+# std::filesystem
+find_package(Filesystem REQUIRED)
+
 add_library(SightLib src/lib/SightLib.cpp)
 
 target_include_directories(SightLib PUBLIC src/lib)
@@ -19,7 +25,7 @@ enable_testing()
 
 add_executable(TestSightLib tests/TestSightLib.cpp)
 target_include_directories(TestSightLib PRIVATE tests)
-target_link_libraries(TestSightLib PRIVATE SightLib)
+target_link_libraries(TestSightLib PRIVATE SightLib filesystem)
 add_test(TestSightLib TestSightLib)
 
 # the main graphical executable
@@ -44,5 +50,5 @@ if (SlideSight_BUILD_GUI)
     include(CPack)
 
     add_executable(SlideSight ${GUI_SOURCES})
-    target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib)
+    target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib filesystem)
 endif (SlideSight_BUILD_GUI)
