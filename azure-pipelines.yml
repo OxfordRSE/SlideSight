@@ -38,5 +38,5 @@ steps:
   displayName: 'Build'
 
 - script: ctest -V
-  displatName: 'Test'
+  displayName: 'Test'
   workingDirectory: 'build'
