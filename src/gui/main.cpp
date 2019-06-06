@@ -2,6 +2,7 @@
 
 #include "mainwindow.hpp"
 #include "SightLib.hpp"
+#include <assert.h> 
 
 int main(int argc, char *argv[])
 {
