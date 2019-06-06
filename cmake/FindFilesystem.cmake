@@ -156,18 +156,23 @@ else()
 endif()
 
 if(_CXX_FILESYSTEM_HAVE_HEADER)
-    set(_have_fs TRUE)
+    set(_have_fs FALSE)
+    set(_is_experimenal TRUE)
     set(_fs_header filesystem)
     set(_fs_namespace std::filesystem)
 elseif(_CXX_FILESYSTEM_HAVE_EXPERIMENTAL_HEADER)
     set(_have_fs TRUE)
+    set(_is_experimenal TRUE)
     set(_fs_header experimental/filesystem)
     set(_fs_namespace std::experimental::filesystem)
 else()
     set(_have_fs FALSE)
+    set(_is_experimenal FALSE)
 endif()
 
 set(CXX_FILESYSTEM_HAVE_FS ${_have_fs} CACHE BOOL "TRUE if we have the C++ filesystem headers")
+set(CXX_FILESYSTEM_IS_EXPERIMENTAL ${_is_experimenal} CACHE BOOL "TRUE if we found the
+experimental version of the C++ filesystem headers")
 set(CXX_FILESYSTEM_HEADER ${_fs_header} CACHE STRING "The header that should be included to obtain the filesystem APIs")
 set(CXX_FILESYSTEM_NAMESPACE ${_fs_namespace} CACHE STRING "The C++ namespace that contains the filesystem APIs")
 
@@ -225,4 +230,3 @@ set(Filesystem_FOUND ${_found} CACHE BOOL "TRUE if we can compile and link a pro
 if(Filesystem_FIND_REQUIRED AND NOT Filesystem_FOUND)
     message(FATAL_ERROR "Cannot Compile simple program using std::filesystem")
 endif()
-

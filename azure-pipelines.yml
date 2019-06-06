@@ -1,8 +1,20 @@
-trigger:
-- master
+strategy:
+  matrix:
+    # Ubuntu
+    Ubuntu:
+      imageName: 'ubuntu-16.04'
+      buildGui: 'ON'
+    # macOS
+    macOS:
+      imageName: 'macOS-10.14'
+      buildGui: 'OFF'
+    # Windows
+    Windows:
+      imageName: 'vs2017-win2016'
+      buildGui: 'OFF'
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: $(imageName)
 
 steps:
 
@@ -10,13 +22,18 @@ steps:
 # - script: vcpkg install qt5-base
 #   displayName: 'Install qt5'
 
-- script: sudo apt update && sudo apt install qt5-default
-  displayName: 'Install qt5'
+- script: |
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+    sudo apt update
+    sudo apt install qt5-default g++-8
+    export CXX=g++-8
+  displayName: 'Install dependencies Ubuntu'
+  condition: startsWith(variables['imageName'], 'ubuntu')
 
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
-    cmakeArgs: '..'
+    cmakeArgs: '.. -DSlideSight_BUILD_GUI:BOOL=$(buildGui)'
   displayName: 'CMake'
 
 - task: CMake@1
@@ -24,3 +41,7 @@ steps:
     workingDirectory: 'build'
     cmakeArgs: '--build .'
   displayName: 'Build'
+
+- script: ctest -V
+  displayName: 'Test'
+  workingDirectory: 'build'

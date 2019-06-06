@@ -1,5 +1,6 @@
 #include "SlideData.h"
-#include <experimental/filesystem>
+
+#include "Filesystem.hpp"
 #include <iostream>
 
 namespace sight {
@@ -12,7 +13,7 @@ SlideData::SlideData()
 void SlideData::open(const std::string& filename)
 {
 
-  if (!std::experimental::filesystem::exists(filename)) {
+  if (!SIGHT_FILESYSTEM_NS::exists(filename)) {
     throw std::runtime_error("Could not find file: " + filename);
   }
   const char* vendor_name_raw = openslide_detect_vendor(filename.c_str());

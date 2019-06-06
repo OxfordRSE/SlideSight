@@ -37,3 +37,6 @@ CMakeSettings.json
 
 # Build files
 build/
+
+# Testing files
+Testing/

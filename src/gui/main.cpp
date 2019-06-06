@@ -1,3 +1,4 @@
+#include <cassert>
 #include <QApplication>
 
 #include "mainwindow.hpp"
