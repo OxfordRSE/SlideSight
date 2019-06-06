@@ -21,7 +21,6 @@ int magic_function(int n) {
 std::string file_magic() {
 
   return std::filesystem::absolute(std::filesystem::path{"."}).string();
-
 }
 
 } // namespace sight

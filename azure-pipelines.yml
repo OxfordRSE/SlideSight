@@ -24,9 +24,12 @@ steps:
 #   displayName: 'Install qt5'
 
 - script: |
+#    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+#    sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main"
     sudo add-apt-repository ppa:ubuntu-toolchain-r/test
     sudo apt update
     sudo apt install qt5-default g++-8
+#    sudo apt install clang++-8 clang-tidy-8
     export CXX=g++-8
   displayName: 'Install dependencies Ubuntu'
   condition: startsWith(variables['imageName'], 'ubuntu')
