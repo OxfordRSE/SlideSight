@@ -26,11 +26,6 @@ steps:
   displayName: 'Install qt5'
   condition: eq(variables['buildGui'], 'ON')
 
-- bash: sudo xcode-select --switch /Applications/Xcode_10.2.1.app/Contents/Developer
-  displayName: 'Select xcode'
-  condition: startsWith(variables['imageName'], 'macOS')
-
-
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
