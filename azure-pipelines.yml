@@ -22,9 +22,13 @@ steps:
 # - script: vcpkg install qt5-base
 #   displayName: 'Install qt5'
 
-- script: sudo apt update && sudo apt install qt5-default
-  displayName: 'Install qt5'
-  condition: eq(variables['buildGui'], 'ON')
+- script: |
+    sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+    sudo apt update
+    sudo apt install qt5-default g++-8
+    export CXX=g++-8
+  displayName: 'Install dependencies Ubuntu'
+  condition: startsWith(variables['imageName'], 'ubuntu')
 
 - task: CMake@1
   inputs:
