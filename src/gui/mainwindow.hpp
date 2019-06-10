@@ -3,19 +3,13 @@
 
 #include <QMainWindow>
 
-class QGraphicsScene;
-class QGraphicsView;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
 private:
-    void createScene();
-    QGraphicsScene *slideScene;
-    QGraphicsView *slideView;
 };
 
 #endif // MAINWINDOW_H
