@@ -4,10 +4,11 @@ strategy:
     Ubuntu:
       imageName: 'ubuntu-16.04'
       buildGui: 'ON'
-    # macOS
-    macOS:
-      imageName: 'macOS-10.14'
-      buildGui: 'OFF'
+      specificCompiler: 'g++-8'
+    # macOS - turn on when we can get filesystem working with macOS
+#    macOS:
+#      imageName: 'macOS-10.14'
+#      buildGui: 'OFF'
     # Windows
     Windows:
       imageName: 'vs2017-win2016'
@@ -23,9 +24,12 @@ steps:
 #   displayName: 'Install qt5'
 
 - script: |
+#    wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+#    sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main"
     sudo add-apt-repository ppa:ubuntu-toolchain-r/test
     sudo apt update
     sudo apt install qt5-default g++-8 libopenslide-dev
+#    sudo apt install clang++-8 clang-tidy-8
     export CXX=g++-8
   displayName: 'Install dependencies Ubuntu'
   condition: startsWith(variables['imageName'], 'ubuntu')
@@ -33,7 +37,7 @@ steps:
 - task: CMake@1
   inputs:
     workingDirectory: 'build'
-    cmakeArgs: '.. -DSlideSight_BUILD_GUI:BOOL=$(buildGui)'
+    cmakeArgs: '.. -DSlideSight_BUILD_GUI:BOOL=$(buildGui) -DCMAKE_CXX_COMPILER=$(specificCompiler)'
   displayName: 'CMake'
 
 - task: CMake@1

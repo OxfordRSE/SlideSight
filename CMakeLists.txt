@@ -12,6 +12,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # export compiler flags for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+
+# Set global compiler warnings
+if(MSVC)
+    add_compile_options(/W3 /WX)
+else()
+    add_compile_options(-Wall -pedantic -Wextra -Werror)
+endif()
+
 # the main SlideSight library and test suite
 
 # Library dependencies
@@ -80,3 +88,52 @@ if (SlideSight_BUILD_GUI)
     add_executable(SlideSight ${GUI_SOURCES})
     target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib filesystem)
 endif (SlideSight_BUILD_GUI)
+
+###################################
+# Static analysis and other tools #
+###################################
+
+# Clang tidy as optional static analyzer
+option(SlideSight_USE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
+if (SlideSight_USE_CLANG_TIDY)
+    find_program(CLANG_TIDY_EXE NAMES "clang-tidy" "clang-tidy-9" "clang-tidy-8" "clang-tidy-7"
+            DOC "Path to clang-tidy executable")
+    if(NOT CLANG_TIDY_EXE)
+        message(STATUS "clang-tidy not found.")
+    else()
+        message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
+        set_target_properties(SightLib PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+    endif()
+endif()
+
+# LLVM AddressSanitizer to detecting memory errors
+# Note that there are many other sanitizers in LLVM to help detect errors, see
+# http://travistoptips.blogspot.co.uk/2015/11/sanitize-all-things.html
+option(SlideSight_MEMCHECK "Use LLVM AddressSanitizer to detecting memory errors" OFF)
+if (SlideSight_MEMCHECK)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        message(STATUS "Configuring with LLVM AddressSanitizer")
+        set(
+                SlideSight_MEMCHECK_FLAGS
+                -fno-optimize-sibling-calls
+                -fsanitize=address
+                -fsanitize-address-use-after-scope
+        )
+        target_compile_options(SightLib PUBLIC -O1 -g -fno-omit-frame-pointer ${SlideSight_MEMCHECK_FLAGS})
+        target_link_libraries(SightLib PUBLIC -g ${SlideSight_MEMCHECK_FLAGS})
+    else()
+        message(FATAL_ERROR "clang compiler required with SlideSight_MEMCHECK: found ${CMAKE_CXX_COMPILER_ID}")
+    endif()
+endif()
+
+# Setup coverage testing for GCC or Clang
+option(SlideSight_ENABLE_COVERAGE "Enable coverage reporting for GCC or Clang" FALSE)
+if (SlideSight_ENABLE_COVERAGE)
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+        message(STATUS "Configuring with coverage")
+        target_compile_options(SightLib PUBLIC --coverage -O0)
+        target_link_libraries(SightLib PUBLIC --coverage)
+    else()
+        message(FATAL_ERROR "GCC or Clang required with SlideSight_ENABLE_COVERAGE: found ${CMAKE_CXX_COMPILER_ID}")
+    endif()
+endif()
