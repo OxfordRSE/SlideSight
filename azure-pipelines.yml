@@ -25,7 +25,7 @@ steps:
 - script: |
     sudo add-apt-repository ppa:ubuntu-toolchain-r/test
     sudo apt update
-    sudo apt install qt5-default g++-8
+    sudo apt install qt5-default g++-8 libopenslide-dev
     export CXX=g++-8
   displayName: 'Install dependencies Ubuntu'
   condition: startsWith(variables['imageName'], 'ubuntu')
