@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(SlideSight LANGUAGES CXX)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
 # ensure C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,7 +12,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # export compiler flags for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 # Set global compiler warnings
 if(MSVC)
@@ -21,16 +22,44 @@ endif()
 
 # the main SlideSight library and test suite
 
+# Library dependencies
+
+# OpenSlide
+find_package(OpenSlide REQUIRED)
+set(sight_include_dirs ${OPENSLIDE_INCLUDE_DIRS})
+set(sight_libraries ${OPENSLIDE_LIBRARIES})
+
 # std::filesystem
-find_package(Filesystem REQUIRED)
+find_package(Filesystem REQUIRED COMPONENTS Experimental)
 
-add_library(SightLib src/lib/SightLib.cpp)
+set(sight_source
+  src/lib/SightLib.cpp
+  src/lib/SlideData.cpp
+  )
 
-target_include_directories(SightLib PUBLIC src/lib)
+set(sight_headers
+  src/lib/SightLib.hpp
+  src/lib/SlideData.hpp
+  )
+
+
+set(sight_tests
+  tests/TestSightLib.cpp
+  tests/TestSlideData.cpp
+  )
+  
+# the main SlideSight library and test suite
+add_library(SightLib ${sight_source} ${sight_header})
+
+target_include_directories(SightLib PUBLIC src/lib ${sight_include_dirs})
+target_link_libraries(SightLib PUBLIC ${sight_libraries} filesystem)
+if (CXX_FILESYSTEM_IS_EXPERIMENTAL)
+  target_compile_definitions(SightLib PUBLIC CXX_FILESYSTEM_IS_EXPERIMENTAL) 
+endif()
 
 enable_testing()
 
-add_executable(TestSightLib tests/TestSightLib.cpp)
+add_executable(TestSightLib ${sight_tests})
 target_include_directories(TestSightLib PRIVATE tests)
 target_link_libraries(TestSightLib PRIVATE SightLib filesystem)
 add_test(TestSightLib TestSightLib)

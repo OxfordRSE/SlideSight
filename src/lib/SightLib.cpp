@@ -1,6 +1,6 @@
 #include "SightLib.hpp"
 
-#include <filesystem>
+#include "Filesystem.hpp"
 
 #include <iostream>
 
@@ -19,8 +19,7 @@ int magic_function(int n) {
 }
 
 std::string file_magic() {
-
-  return std::filesystem::absolute(std::filesystem::path{"."}).string();
+  return SIGHT_FILESYSTEM_NS::absolute(SIGHT_FILESYSTEM_NS::path{"."}).string();
 }
 
 } // namespace sight
