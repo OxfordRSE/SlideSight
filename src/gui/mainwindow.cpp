@@ -1,14 +1,22 @@
 #include "mainwindow.hpp"
-#include "ui_mainwindow.h"
+
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)
 {
-    ui->setupUi(this);
+    createScene();
+    slideView = new QGraphicsView(slideScene);
+    setCentralWidget(slideView);
+
+    setWindowTitle(tr("SIGHT"));
 }
 
-MainWindow::~MainWindow()
+void MainWindow::createScene()
 {
-    delete ui;
+    // TODO configure with a pixmap representation of a slide
+    slideScene = new QGraphicsScene(this);
+    slideScene->addText("Hello, world!");
 }

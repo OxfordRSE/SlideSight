@@ -3,9 +3,8 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
-}
+class QGraphicsScene;
+class QGraphicsView;
 
 class MainWindow : public QMainWindow
 {
@@ -13,10 +12,10 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
 private:
-    Ui::MainWindow *ui;
+    void createScene();
+    QGraphicsScene *slideScene;
+    QGraphicsView *slideView;
 };
 
 #endif // MAINWINDOW_H
