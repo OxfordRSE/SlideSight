@@ -14,9 +14,11 @@ class SlideData {
     SlideData();
     void open(const std::string& filename);
     void close();
-
+    int64_t width();
+    int64_t height();
   private:
     data_t data;
+    int64_t w=-1, h=-1;
 };
 }
 

@@ -75,7 +75,7 @@ if (SlideSight_BUILD_GUI)
     set(CMAKE_AUTOUIC ON)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-    set(GUI_SOURCES src/gui/main.cpp src/gui/mainwindow.cpp src/gui/SlideView.cpp src/gui/SlideView.hpp)
+    set(GUI_SOURCES src/gui/main.cpp src/gui/mainwindow.cpp src/gui/SlideView.cpp src/gui/SlideView.hpp src/gui/SlideModel.cpp src/gui/SlideModel.hpp)
 
     set(CPACK_PACKAGE_NAME "SlideSight")
     set(CPACK_PACKAGE_VERSION_MAJOR 1)
