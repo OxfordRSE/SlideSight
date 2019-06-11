@@ -7,7 +7,7 @@
 
 #include <QObject>
 
-namespace sight { class SlideData; }
+namespace sight { class Slide; }
 
 class QPoint;
 
@@ -19,13 +19,13 @@ class QPoint;
 class SlideModel : QObject {
     Q_OBJECT
 public:
-    void setSlideData(sight::SlideData *slideData);
-    sight::SlideData *slideData();
+    void setSlide(sight::Slide *slide);
+    sight::Slide *slide();
     QPoint dimensions();
 signals:
-    void slideChanged(sight::SlideData *newSlide);
+    void slideChanged(sight::Slide *newSlide);
 private:
-    sight::SlideData *theSlide = nullptr;
+    sight::Slide *theSlide = nullptr;
 };
 
 

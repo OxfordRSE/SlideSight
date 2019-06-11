@@ -35,7 +35,7 @@ find_package(Filesystem REQUIRED COMPONENTS Experimental)
 set(sight_source
   src/lib/SightLib.cpp
   src/lib/SlideData.cpp
-  )
+        src/lib/Slide.hpp)
 
 set(sight_headers
   src/lib/SightLib.hpp

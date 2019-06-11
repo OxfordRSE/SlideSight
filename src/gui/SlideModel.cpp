@@ -6,13 +6,13 @@
 #include "SlideData.hpp"
 #include <QPoint>
 
-void SlideModel::setSlideData(sight::SlideData *slideData)
+void SlideModel::setSlide(sight::Slide *slide)
 {
-    theSlide = slideData;
-    emit(slideChanged(slideData));
+    theSlide = slide;
+    emit(slideChanged(slide));
 }
 
-sight::SlideData *SlideModel::slideData() {
+sight::Slide *SlideModel::slide() {
     return theSlide;
 }
 
