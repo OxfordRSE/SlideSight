@@ -11,6 +11,8 @@
 #include "SlideModel.hpp"
 #include "Slide.hpp"
 
+const int64_t STUB_WIDTH = 640, STUB_HEIGHT = 480;
+
 // Stub implementation of the Slide interface
 class StubSlide : public sight::Slide
 {
@@ -24,11 +26,11 @@ public:
     }
 
     int64_t width() override {
-        return 640;
+        return STUB_WIDTH;
     }
 
     int64_t height() override {
-        return 480;
+        return STUB_HEIGHT;
     }
 };
 
@@ -47,4 +49,14 @@ TEST_CASE("Provides a zero-sized image with no slide", "[SlideModel]")
     QPoint imageSize = model.dimensions();
     REQUIRE(imageSize.x() == 0);
     REQUIRE(imageSize.y() == 0);
+}
+
+TEST_CASE(".dimensions() returns the size of the slide", "[SlideModel]")
+{
+    SlideModel model;
+    StubSlide slide;
+    model.setSlide(&slide);
+    QPoint imageSize = model.dimensions();
+    REQUIRE(imageSize.x() == STUB_WIDTH);
+    REQUIRE(imageSize.y() == STUB_HEIGHT);
 }
