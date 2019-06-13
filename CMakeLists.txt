@@ -43,10 +43,13 @@ set(sight_headers
   )
 
 
-set(sight_tests
+set(sight_lib_tests
   tests/TestSightLib.cpp
   tests/TestSlideData.cpp
   )
+
+set(sight_app_tests
+        tests/TestSlideModel.cpp)
   
 # the main SlideSight library and test suite
 add_library(SightLib ${sight_source} ${sight_header})
@@ -59,7 +62,7 @@ endif()
 
 enable_testing()
 
-add_executable(TestSightLib ${sight_tests})
+add_executable(TestSightLib ${sight_lib_tests})
 target_include_directories(TestSightLib PRIVATE tests)
 target_link_libraries(TestSightLib PRIVATE SightLib filesystem)
 add_test(TestSightLib TestSightLib)
@@ -87,6 +90,12 @@ if (SlideSight_BUILD_GUI)
 
     add_executable(SlideSight ${GUI_SOURCES})
     target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib filesystem)
+
+    add_executable(TestSightApp ${sight_app_tests})
+    target_include_directories(TestSightApp PRIVATE tests src/gui)
+    target_link_libraries(TestSightApp PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets SightLib filesystem)
+    add_test(TestSightApp TestSightApp)
+
 endif (SlideSight_BUILD_GUI)
 
 ###################################
