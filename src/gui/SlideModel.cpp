@@ -25,15 +25,8 @@ QSize SlideModel::dimensions() const {
 }
 
 QPixmap SlideModel::imageAtPoint(QRect bounds) const {
-    int64_t xMin = bounds.bottomLeft().x();
-    int64_t yMin = bounds.bottomLeft().y();
-    QSize slideSize = dimensions();
-    if (xMin < 0 || xMin > slideSize.width() || yMin < 0 || yMin > slideSize.width()) return QPixmap();
-
-    int64_t xMax = bounds.topRight().x();
-    int64_t yMax = bounds.topRight().y();
-    if (xMax > slideSize.width() || yMax > slideSize.height()) return QPixmap();
-
+    QRect imageBounds(QPoint(0,0), dimensions());
+    if (!imageBounds.contains(bounds)) return QPixmap();
     // TODO fill with data from the slide
     return QPixmap(bounds.size());
 }
