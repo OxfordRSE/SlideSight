@@ -7,6 +7,8 @@
 
 #include <QGuiApplication>
 #include <QPoint>
+#include <QRect>
+#include <QSize>
 #include <QSignalSpy>
 #include <QPixmap>
 
@@ -49,9 +51,9 @@ TEST_CASE("Emits signal on slide change", "[SlideModel]")
 TEST_CASE("Provides a zero-sized image with no slide", "[SlideModel]")
 {
     SlideModel model;
-    QPoint imageSize = model.dimensions();
-    REQUIRE(imageSize.x() == 0);
-    REQUIRE(imageSize.y() == 0);
+    QSize imageSize = model.dimensions();
+    REQUIRE(imageSize.width() == 0);
+    REQUIRE(imageSize.height() == 0);
 }
 
 TEST_CASE(".dimensions() returns the size of the slide", "[SlideModel]")
@@ -59,9 +61,9 @@ TEST_CASE(".dimensions() returns the size of the slide", "[SlideModel]")
     SlideModel model;
     StubSlide slide;
     model.setSlide(&slide);
-    QPoint imageSize = model.dimensions();
-    REQUIRE(imageSize.x() == STUB_WIDTH);
-    REQUIRE(imageSize.y() == STUB_HEIGHT);
+    QSize imageSize = model.dimensions();
+    REQUIRE(imageSize.width() == STUB_WIDTH);
+    REQUIRE(imageSize.height() == STUB_HEIGHT);
 }
 
 TEST_CASE(".imageAtPoint()", "[SlideModel]")
@@ -69,8 +71,8 @@ TEST_CASE(".imageAtPoint()", "[SlideModel]")
     SlideModel model;
     SECTION("the slide is empty so the image returned is null")
     {
-        QPoint offset(10,10), size(100,100);
-        QPixmap image = model.imageAtPoint(offset, size);
+        QRect bounds(10,10,100,100);
+        QPixmap image = model.imageAtPoint(bounds);
         REQUIRE(image.isNull());
     }
 
@@ -80,24 +82,24 @@ TEST_CASE(".imageAtPoint()", "[SlideModel]")
     {
         SECTION("the offset is out of bounds so the image returned is null")
         {
-            QPoint offset(-1, -1), size(100, 100);
-            QPixmap image = model.imageAtPoint(offset, size);
+            QRect bounds(-1,-1,100,100);
+            QPixmap image = model.imageAtPoint(bounds);
             REQUIRE(image.isNull());
         }
 
         SECTION("the image extent is out of bounds so the image returned is null")
         {
-            QPoint offset(600, 400), size(100, 100);
-            QPixmap image = model.imageAtPoint(offset, size);
+            QRect bounds(600,400,100,100);
+            QPixmap image = model.imageAtPoint(bounds);
             REQUIRE(image.isNull());
         }
 
         SECTION("the image is within the slide's bounds and is not null")
         {
-             QPoint offset(10,10), size(100,100);
-             QPixmap image = model.imageAtPoint(offset, size);
+             QRect bounds(10,10,100,100);
+             QPixmap image = model.imageAtPoint(bounds);
              REQUIRE(!image.isNull());
-             REQUIRE(image.size() == QSize(size.x(), size.y()));
+             REQUIRE(image.size() == QSize(bounds.width(), bounds.height()));
         }
     }
 }
