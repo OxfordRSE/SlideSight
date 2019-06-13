@@ -36,6 +36,7 @@ public:
     }
 };
 
+
 TEST_CASE("Emits signal on slide change", "[SlideModel]")
 {
     StubSlide slide;
@@ -63,22 +64,34 @@ TEST_CASE(".dimensions() returns the size of the slide", "[SlideModel]")
     REQUIRE(imageSize.y() == STUB_HEIGHT);
 }
 
-TEST_CASE(".imageAtPoint() returns an empty image with a null slide", "[SlideModel]")
+TEST_CASE(".imageAtPoint()", "[SlideModel]")
 {
     SlideModel model;
-    QPoint offset(10,10), size(100,100);
-    QPixmap image = model.imageAtPoint(offset, size);
-    REQUIRE(image.isNull());
-}
+    SECTION("the slide is empty so the image returned is null")
+    {
+        QPoint offset(10,10), size(100,100);
+        QPixmap image = model.imageAtPoint(offset, size);
+        REQUIRE(image.isNull());
+    }
 
-TEST_CASE(".imageAtPoint() returns an empty image for out of bounds offset", "[SlideModel")
-{
-    SlideModel model;
     StubSlide slide;
     model.setSlide(&slide);
-    QPoint offset(-1,-1), size(100,100);
-    QPixmap image = model.imageAtPoint(offset, size);
-    REQUIRE(image.isNull());
+    SECTION("the slide is not empty")
+    {
+        SECTION("the offset is out of bounds so the image returned is null")
+        {
+            QPoint offset(-1, -1), size(100, 100);
+            QPixmap image = model.imageAtPoint(offset, size);
+            REQUIRE(image.isNull());
+        }
+
+        SECTION("the image extent is out of bounds so the image returned is null")
+        {
+            QPoint offset(600, 400), size(100, 100);
+            QPixmap image = model.imageAtPoint(offset, size);
+            REQUIRE(image.isNull());
+        }
+    }
 }
 
 // We need to have a Qt app for QPixmap to work in the tests.
