@@ -22,6 +22,16 @@ public:
     void setSlide(sight::Slide *slide);
     sight::Slide *slide() const;
     QPoint dimensions() const;
+    /**
+     * Retrieves an image of a portion of the slide. The image will be non-null iff the following conditions are met:
+     * - this object's slide is non-null.
+     * - offset is within the bounds of the slide.
+     * - offset + size is within the bounds of the slide.
+     * @param offset
+     * @param size
+     * @return
+     */
+    QPixmap imageAtPoint(QPoint offset, QPoint size) const;
 signals:
     void slideChanged();
 private:

@@ -5,8 +5,10 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+#include <QGuiApplication>
 #include <QPoint>
 #include <QSignalSpy>
+#include <QPixmap>
 
 #include "SlideModel.hpp"
 #include "Slide.hpp"
@@ -59,4 +61,22 @@ TEST_CASE(".dimensions() returns the size of the slide", "[SlideModel]")
     QPoint imageSize = model.dimensions();
     REQUIRE(imageSize.x() == STUB_WIDTH);
     REQUIRE(imageSize.y() == STUB_HEIGHT);
+}
+
+TEST_CASE(".imageAtPoint() returns an empty image with a null slide", "[SlideModel]")
+{
+    SlideModel model;
+    QPoint offset(10,10), size(100,100);
+    QPixmap image = model.imageAtPoint(offset, size);
+    REQUIRE(image.isNull());
+}
+
+// We need to have a Qt app for QPixmap to work in the tests.
+QGuiApplication *app;
+__attribute__((constructor)) void __initialise_qt()
+{
+    const char *arg_list[] = {"/bin/false"};
+    char **argv = const_cast<char **>(arg_list);
+    int argc = 1;
+    app = new QGuiApplication(argc, argv);
 }
