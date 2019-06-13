@@ -17,5 +17,7 @@ sight::Slide *SlideModel::slide() const {
 }
 
 QPoint SlideModel::dimensions() const {
-    return QPoint(theSlide->width(), theSlide->height());
+    int64_t width = theSlide ? theSlide->width() : 0;
+    int64_t height = theSlide ? theSlide->height() : 0;
+    return QPoint(width, height);
 }

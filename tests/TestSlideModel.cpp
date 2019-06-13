@@ -5,6 +5,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+#include <QPoint>
 #include <QSignalSpy>
 
 #include "SlideModel.hpp"
@@ -38,4 +39,12 @@ TEST_CASE("Emits signal on slide change", "[SlideModel]")
     QSignalSpy spy(&model, SIGNAL(slideChanged()));
     model.setSlide(&slide);
     REQUIRE(spy.count() == 1);
+}
+
+TEST_CASE("Provides a zero-sized image with no slide", "[SlideModel]")
+{
+    SlideModel model;
+    QPoint imageSize = model.dimensions();
+    REQUIRE(imageSize.x() == 0);
+    REQUIRE(imageSize.y() == 0);
 }
