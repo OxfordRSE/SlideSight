@@ -8,10 +8,10 @@
 namespace sight {
     class Slide {
     public:
-        virtual void open(const std::string& filename);
-        virtual void close();
-        virtual int64_t width();
-        virtual int64_t height();
+        virtual void open(const std::string& filename) = 0;
+        virtual void close() = 0;
+        virtual int64_t width() = 0;
+        virtual int64_t height() = 0;
     };
 }
 
