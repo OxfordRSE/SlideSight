@@ -20,8 +20,8 @@ class SlideModel : public QObject {
     Q_OBJECT
 public:
     void setSlide(sight::Slide *slide);
-    sight::Slide *slide();
-    QPoint dimensions();
+    sight::Slide *slide() const;
+    QPoint dimensions() const;
 signals:
     void slideChanged();
 private:

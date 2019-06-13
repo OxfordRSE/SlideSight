@@ -12,10 +12,10 @@ void SlideModel::setSlide(sight::Slide *slide)
     emit(slideChanged());
 }
 
-sight::Slide *SlideModel::slide() {
+sight::Slide *SlideModel::slide() const {
     return theSlide;
 }
 
-QPoint SlideModel::dimensions() {
+QPoint SlideModel::dimensions() const {
     return QPoint(theSlide->width(), theSlide->height());
 }
