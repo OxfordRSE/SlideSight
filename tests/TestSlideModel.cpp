@@ -71,6 +71,16 @@ TEST_CASE(".imageAtPoint() returns an empty image with a null slide", "[SlideMod
     REQUIRE(image.isNull());
 }
 
+TEST_CASE(".imageAtPoint() returns an empty image for out of bounds offset", "[SlideModel")
+{
+    SlideModel model;
+    StubSlide slide;
+    model.setSlide(&slide);
+    QPoint offset(-1,-1), size(100,100);
+    QPixmap image = model.imageAtPoint(offset, size);
+    REQUIRE(image.isNull());
+}
+
 // We need to have a Qt app for QPixmap to work in the tests.
 QGuiApplication *app;
 __attribute__((constructor)) void __initialise_qt()
