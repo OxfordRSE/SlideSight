@@ -24,6 +24,16 @@ QPoint SlideModel::dimensions() const {
     return QPoint(width, height);
 }
 
-QPixmap SlideModel::imageAtPoint(QPoint, QPoint) const {
-    return QPixmap();
+QPixmap SlideModel::imageAtPoint(QPoint origin, QPoint size) const {
+    int64_t xMin = origin.x();
+    int64_t yMin = origin.y();
+    QPoint slideSize = dimensions();
+    if (xMin < 0 || xMin > slideSize.x() || yMin < 0 || yMin > slideSize.y()) return QPixmap();
+
+    int64_t xMax = xMin + size.x();
+    int64_t yMax = yMin + size.y();
+    if (xMax > slideSize.x() || yMax > slideSize.y()) return QPixmap();
+
+    // TODO fill with data from the slide
+    return QPixmap(size.x(), size.y());
 }

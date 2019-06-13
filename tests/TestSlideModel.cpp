@@ -91,6 +91,14 @@ TEST_CASE(".imageAtPoint()", "[SlideModel]")
             QPixmap image = model.imageAtPoint(offset, size);
             REQUIRE(image.isNull());
         }
+
+        SECTION("the image is within the slide's bounds and is not null")
+        {
+             QPoint offset(10,10), size(100,100);
+             QPixmap image = model.imageAtPoint(offset, size);
+             REQUIRE(!image.isNull());
+             REQUIRE(image.size() == QSize(size.x(), size.y()));
+        }
     }
 }
 
