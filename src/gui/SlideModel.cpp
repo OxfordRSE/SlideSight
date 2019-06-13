@@ -9,7 +9,7 @@
 void SlideModel::setSlide(sight::Slide *slide)
 {
     theSlide = slide;
-    emit(slideChanged(slide));
+    emit(slideChanged());
 }
 
 sight::Slide *SlideModel::slide() {

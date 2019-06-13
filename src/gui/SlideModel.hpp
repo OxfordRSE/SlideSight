@@ -16,14 +16,14 @@ class QPoint;
  * It emits a signal indicating that the data represented has changed, and provides an interface for
  * the view to get an image representing a 'window' onto the current slide.
  */
-class SlideModel : QObject {
+class SlideModel : public QObject {
     Q_OBJECT
 public:
     void setSlide(sight::Slide *slide);
     sight::Slide *slide();
     QPoint dimensions();
 signals:
-    void slideChanged(sight::Slide *newSlide);
+    void slideChanged();
 private:
     sight::Slide *theSlide = nullptr;
 };
