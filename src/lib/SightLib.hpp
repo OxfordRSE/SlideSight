@@ -1,7 +1,7 @@
 #ifndef SLIDESIGHT_HPP_
 #define SLIDESIGHT_HPP_
 
-#include "SlideData.h"
+#include "SlideData.hpp"
 #include <string>
 
 namespace sight {

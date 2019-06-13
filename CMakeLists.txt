@@ -35,7 +35,7 @@ find_package(Filesystem REQUIRED COMPONENTS Experimental)
 set(sight_source
   src/lib/SightLib.cpp
   src/lib/SlideData.cpp
-  )
+        src/lib/Slide.hpp)
 
 set(sight_headers
   src/lib/SightLib.hpp
@@ -43,10 +43,13 @@ set(sight_headers
   )
 
 
-set(sight_tests
+set(sight_lib_tests
   tests/TestSightLib.cpp
   tests/TestSlideData.cpp
   )
+
+set(sight_app_tests
+        tests/TestSlideModel.cpp)
   
 # the main SlideSight library and test suite
 add_library(SightLib ${sight_source} ${sight_header})
@@ -59,7 +62,7 @@ endif()
 
 enable_testing()
 
-add_executable(TestSightLib ${sight_tests})
+add_executable(TestSightLib ${sight_lib_tests})
 target_include_directories(TestSightLib PRIVATE tests)
 target_link_libraries(TestSightLib PRIVATE SightLib filesystem)
 add_test(TestSightLib TestSightLib)
@@ -70,12 +73,14 @@ if (SlideSight_BUILD_GUI)
     find_package(Qt5Widgets CONFIG REQUIRED)
     find_package(Qt5Core CONFIG REQUIRED)
     find_package(Qt5Gui CONFIG REQUIRED)
+    find_package(Qt5Test CONFIG REQUIRED)
 
     set(CMAKE_AUTOMOC ON)
     set(CMAKE_AUTOUIC ON)
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-    set(GUI_SOURCES src/gui/main.cpp src/gui/mainwindow.cpp src/gui/mainwindow.ui)
+    set(GUI_SOURCES src/gui/mainwindow.cpp src/gui/SlideView.cpp src/gui/SlideView.hpp src/gui/SlideModel.cpp src/gui/SlideModel.hpp)
+    set(GUI_MAIN src/gui/main.cpp)
 
     set(CPACK_PACKAGE_NAME "SlideSight")
     set(CPACK_PACKAGE_VERSION_MAJOR 1)
@@ -86,7 +91,15 @@ if (SlideSight_BUILD_GUI)
     include(CPack)
 
     add_executable(SlideSight ${GUI_SOURCES})
+    target_sources(SlideSight PRIVATE ${GUI_MAIN})
     target_link_libraries(SlideSight Qt5::Core Qt5::Gui Qt5::Widgets SightLib filesystem)
+
+    add_executable(TestSightApp ${sight_app_tests})
+    target_sources(TestSightApp PRIVATE ${GUI_SOURCES})
+    target_include_directories(TestSightApp PRIVATE tests src/gui)
+    target_link_libraries(TestSightApp PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Test SightLib filesystem)
+    add_test(TestSightApp TestSightApp)
+
 endif (SlideSight_BUILD_GUI)
 
 ###################################

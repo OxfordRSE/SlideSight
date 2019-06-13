@@ -1,4 +1,4 @@
-#include "SlideData.h"
+#include "SlideData.hpp"
 
 #include "Filesystem.hpp"
 #include <iostream>
@@ -33,10 +33,9 @@ void SlideData::open(const std::string& filename)
   const int level_count = openslide_get_level_count(data.get());
   std::cout << "\t- level count " << level_count << std::endl;
 
-  int64_t width, height;
-  openslide_get_level0_dimensions(data.get(), &width, &height);
+  openslide_get_level0_dimensions(data.get(), &w, &h);
 
-  std::cout << "\t- level 0 dimensions (" << width << 'x' << height << ")"
+  std::cout << "\t- level 0 dimensions (" << w << 'x' << h << ")"
             << std::endl;
 }
 void SlideData::close()
@@ -45,4 +44,6 @@ void SlideData::close()
     openslide_close(data.get());
   }
 }
+int64_t SlideData::height() { return h; }
+int64_t SlideData::width() { return w; }
 }

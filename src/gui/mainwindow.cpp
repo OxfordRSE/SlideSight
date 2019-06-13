@@ -1,14 +1,12 @@
 #include "mainwindow.hpp"
-#include "ui_mainwindow.h"
+
+#include "SlideView.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)
 {
-    ui->setupUi(this);
+    setCentralWidget(new SlideView(this));
+
+    setWindowTitle(tr("SIGHT"));
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
